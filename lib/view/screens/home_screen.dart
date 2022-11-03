@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipeapp2/models/models_export.dart';
 import 'package:recipeapp2/presenter/blocs/recipe/recipe_bloc.dart';
 
+import '../widgets/widgets_export.dart';
+
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/';
 
@@ -17,7 +19,19 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Vertical sliding carousel demo')),
+      appBar: AppBar(
+        title: Text('Work in progress...'),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/add');
+            },
+            child: Icon(
+              Icons.add_circle,
+            ),
+          )
+        ],
+      ),
       body: Container(
         child: BlocBuilder<RecipesBloc, RecipesState>(
           builder: (context, state) {
@@ -49,56 +63,6 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
-    );
-  }
-}
-
-class HeroCarouselCard extends StatelessWidget {
-  final Recipe recipe;
-
-  const HeroCarouselCard({
-    required this.recipe,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(5.0),
-      child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          child: Stack(
-            children: <Widget>[
-              //Image.network(item, fit: BoxFit.cover, width: 1000.0),
-              Positioned(
-                bottom: 0.0,
-                left: 0.0,
-                right: 0.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      // ignore: prefer_const_literals_to_create_immutables
-                      colors: [
-                        Color.fromARGB(200, 0, 0, 0),
-                        Color.fromARGB(0, 0, 0, 0)
-                      ],
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                    ),
-                  ),
-                  padding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  child: Text(
-                    recipe.name,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          )),
     );
   }
 }
