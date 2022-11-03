@@ -10,6 +10,8 @@ class AppRouter {
     switch (settings.name) {
       case '/':
         return HomeScreen.route();
+      case '/add':
+        return AddRecipeScreen.route();
       default:
         return _errorRoute();
     }
