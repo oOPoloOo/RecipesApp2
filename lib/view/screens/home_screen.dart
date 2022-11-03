@@ -2,8 +2,6 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipeapp2/models/models_export.dart';
 import 'package:recipeapp2/presenter/blocs/recipe/recipe_bloc.dart';
@@ -18,25 +16,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> list = [
-      Expanded(
-        child: Container(
-          height: 350,
-          color: Colors.red,
-          child: Text('Vrienas'),
-        ),
-      ),
-      Container(
-        height: 350,
-        color: Colors.green,
-        child: Text('Du'),
-      ),
-      Container(
-        height: 350,
-        color: Colors.yellow,
-        child: Text('Trys'),
-      ),
-    ];
     return Scaffold(
       appBar: AppBar(title: Text('Vertical sliding carousel demo')),
       body: Container(
@@ -50,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             if (state is RecipesLoaded) {
               return CarouselSlider(
                 options: CarouselOptions(
-                  // height: MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height,
                   aspectRatio: 1,
                   enlargeCenterPage: false,
                   scrollDirection: Axis.vertical,
