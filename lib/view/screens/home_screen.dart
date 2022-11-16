@@ -96,7 +96,7 @@ class _buildBody extends StatelessWidget {
               if (state is RecipesLoaded) {
                 return Column(
                   children: [
-                    _buildCategoryCarousel(recipes: state.recipes),
+                    CategoryCarousel(recipes: state.recipes),
                     _buildRecipeCardsListView(recipes: state.recipes),
                   ],
                 );
@@ -135,9 +135,9 @@ class _buildRecipeCardsListView extends StatelessWidget {
   }
 }
 
-class _buildCategoryCarousel extends StatelessWidget {
+class CategoryCarousel extends StatelessWidget {
   final List<Recipe> recipes; // pakeist i categories
-  const _buildCategoryCarousel({
+  const CategoryCarousel({
     Key? key,
     required this.recipes,
   }) : super(key: key);
@@ -157,7 +157,7 @@ class _buildCategoryCarousel extends StatelessWidget {
         ),
         items: recipes
             .map(
-              (recipe) => CategoryCard(
+              (recipe) => CategoryCard.homePage(
                 recipe: recipe,
               ),
             )
