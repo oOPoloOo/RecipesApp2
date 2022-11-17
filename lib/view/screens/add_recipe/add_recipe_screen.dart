@@ -38,7 +38,7 @@ class AddRecipeScreen extends StatelessWidget {
               mediaHeightDivider: mediaHeightDivider,
               mediaWidthDivider: mediaWidthDivider,
             ),
-            InputAndDetailsCard.addRecipe(
+            InputAndDetailsCard.details(
               media: media,
             ),
           ],

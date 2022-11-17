@@ -24,5 +24,10 @@ textTheme() {
       fontSize: 30.0,
       fontWeight: FontWeight.w600,
     ),
+    bodyMedium: TextStyle(
+      color: Colors.white,
+      fontSize: 19.0,
+      fontWeight: FontWeight.normal,
+    ),
   );
 }

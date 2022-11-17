@@ -9,6 +9,7 @@ class InputAndDetailsCard extends StatelessWidget {
   final Size media;
   var _mealNameController = TextEditingController();
   var _descriptionController = TextEditingController();
+
   final double textSize = 10;
   final String fieldLabel = 'Enter meal name';
   final int flex = 1;
@@ -73,10 +74,59 @@ class InputAndDetailsCard extends StatelessWidget {
                           ),
                           _buildCategoryCarousel(),
                           _buildTmePicker(),
-                          _buildButton(textSize: textSize),
+                          _buildButton(
+                            buttonText: 'Upload Recipe',
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: Colors.black,
+                                ),
+                          ),
                         ]
                       : isDetails
-                          ? [Text('')]
+                          ? [
+                              _buildText(
+                                flex: 1,
+                                constraint: constraint,
+                                fieldLabel: "state.recipe.name",
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
+                              ),
+                              _buildText(
+                                flex: 3,
+                                constraint: constraint,
+                                fieldLabel: "Cia state.recipe.description",
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
+                              ),
+                              _buildDurationText(
+                                constraint: constraint,
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
+                              ),
+                              _buildButton(
+                                buttonText: 'Comment',
+                                textStyle: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      color: Colors.black,
+                                    ),
+                              ),
+                            ]
                           : [Text('data')]);
             },
           ),
@@ -86,13 +136,77 @@ class InputAndDetailsCard extends StatelessWidget {
   }
 }
 
+class _buildDurationText extends StatelessWidget {
+  const _buildDurationText({
+    Key? key,
+    required this.constraint,
+    required this.textStyle,
+  }) : super(key: key);
+  final TextStyle textStyle;
+  final BoxConstraints constraint;
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: 2,
+      child: Container(
+        width: constraint.biggest.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            Text(
+              //'${state.recipe.cookTime}',
+              'state.recipe.cookTime',
+              style: textStyle,
+            ),
+            Text(
+              'minutes',
+              style: textStyle,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _buildText extends StatelessWidget {
+  const _buildText({
+    Key? key,
+    required this.flex,
+    required this.fieldLabel,
+    required this.constraint,
+    required this.textStyle,
+  }) : super(key: key);
+
+  final int flex;
+  final String fieldLabel;
+  final BoxConstraints constraint;
+  final TextStyle textStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      flex: flex,
+      child: Container(
+        width: constraint.biggest.width * 0.85,
+        height: constraint.biggest.height * 0.2,
+        alignment: Alignment.topLeft,
+        child: Text(fieldLabel, style: textStyle),
+      ),
+    );
+  }
+}
+
 class _buildButton extends StatelessWidget {
   const _buildButton({
     Key? key,
-    required this.textSize,
+    required this.buttonText,
+    required this.textStyle,
   }) : super(key: key);
 
-  final double textSize;
+  final TextStyle textStyle;
+  final String buttonText;
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +217,9 @@ class _buildButton extends StatelessWidget {
         color: Colors.yellow[700],
         // ignore: prefer_const_constructors
         child: Text(
-          'Upload Recipe',
+          buttonText,
           // ignore: prefer_const_constructors
-          style: TextStyle(fontSize: textSize),
+          style: textStyle,
         ),
       ),
     );

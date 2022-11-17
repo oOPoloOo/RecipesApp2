@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../../widgets/widgets_export.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
-  static const String routeName = '/add';
+  static const String routeName = '/details';
 
   static Route route() {
     return MaterialPageRoute(
@@ -21,7 +21,7 @@ class RecipeDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: _buildAppBar(),
+      appBar: const CustomAppBar(screen: routeName),
       body: Container(
         height: media.height,
         width: media.width,
