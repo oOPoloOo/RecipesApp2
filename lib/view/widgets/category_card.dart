@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:recipeapp2/view/helpers/recipe_card_blur.dart';
 
 import '../../models/models_export.dart';
 

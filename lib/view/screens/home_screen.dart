@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipeapp2/models/models_export.dart';
 import 'package:recipeapp2/presenter/blocs/recipe/recipe_bloc.dart';
+import 'package:recipeapp2/view/widgets/custom_appbar.dart';
 
 import '../helpers/helpers_export.dart';
 import '../widgets/widgets_export.dart';
@@ -21,48 +22,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
+      appBar: CustomAppBar(screen: routeName),
       body: _buildBody(backColor: backColor),
-    );
-  }
-
-  PreferredSize _buildAppBar(BuildContext context) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(50.0),
-      child: AppBar(
-        title: Text(
-          'Cook Book',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Colors.black,
-              ),
-        ),
-        backgroundColor: backColor,
-        elevation: 0.0,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/add');
-            },
-            icon: Icon(
-              Icons.add,
-              size: 35,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Container(
-              alignment: Alignment.center,
-              height: 35,
-              width: 35,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-              ),
-              child: Icon(Icons.person, color: Colors.black, size: 22),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
