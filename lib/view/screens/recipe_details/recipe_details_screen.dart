@@ -1,19 +1,23 @@
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
+import '../../../models/models_export.dart';
 import '../../widgets/widgets_export.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
   static const String routeName = '/details';
 
-  static Route route() {
+  static Route route({required Recipe recipe}) {
     return MaterialPageRoute(
         settings: RouteSettings(name: routeName),
-        builder: (_) => RecipeDetailsScreen());
+        builder: (_) => RecipeDetailsScreen(recipe: recipe));
   }
 
-  const RecipeDetailsScreen({Key? key}) : super(key: key);
+  final Recipe recipe;
+  const RecipeDetailsScreen({required this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +32,13 @@ class RecipeDetailsScreen extends StatelessWidget {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            MealImage(media: media),
+            MealImage.url(
+              media: media,
+              recipe: recipe,
+            ),
             InputAndDetailsCard.details(
               media: media,
+              recipe: recipe,
             ),
           ],
         ),

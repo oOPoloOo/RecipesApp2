@@ -18,40 +18,46 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(5.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-        child: LayoutBuilder(
-          builder: (context, constraint) {
-            return Stack(
-              children: <Widget>[
-                Image.network(recipe.imgURL, fit: BoxFit.cover, width: 1000.0),
-                Positioned(
-                  bottom: 0.0,
-                  child: RecipeCardBlur(
-                    child: Container(
-                      alignment: Alignment.center,
-                      height:
-                          MediaQuery.of(context).size.height * blurTextHeight!,
-                      width: constraint.biggest.width,
-                      color: Colors.transparent.withOpacity(0.4),
-                      // ignore: prefer_const_constructors
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/details', arguments: recipe);
+      },
+      child: Container(
+        margin: EdgeInsets.all(5.0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+          child: LayoutBuilder(
+            builder: (context, constraint) {
+              return Stack(
+                children: <Widget>[
+                  Image.network(recipe.imgURL,
+                      fit: BoxFit.cover, width: 1000.0),
+                  Positioned(
+                    bottom: 0.0,
+                    child: RecipeCardBlur(
                       child: Container(
-                        width: constraint.biggest.width * blurTextWidth!,
-                        child: Row(
-                          children: [
-                            _recipeName(recipe: recipe),
-                            _recipeTime(recipe: recipe),
-                          ],
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height *
+                            blurTextHeight!,
+                        width: constraint.biggest.width,
+                        color: Colors.transparent.withOpacity(0.4),
+                        // ignore: prefer_const_constructors
+                        child: Container(
+                          width: constraint.biggest.width * blurTextWidth!,
+                          child: Row(
+                            children: [
+                              _recipeName(recipe: recipe),
+                              _recipeTime(recipe: recipe),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

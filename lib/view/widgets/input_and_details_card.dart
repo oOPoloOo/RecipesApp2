@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipeapp2/presenter/blocs/recipe/recipe_bloc.dart';
 import 'package:recipeapp2/view/widgets/widgets_export.dart';
 
+import '../../models/models_export.dart';
+
 class InputAndDetailsCard extends StatelessWidget {
   final Size media;
   var _mealNameController = TextEditingController();
@@ -16,14 +18,17 @@ class InputAndDetailsCard extends StatelessWidget {
 
   final bool isAdd;
   final bool isDetails;
-  final bool isCommets;
+  final bool isComments;
+
+  final Recipe? recipe;
 
   InputAndDetailsCard.addRecipe({
     Key? key,
     required this.media,
     this.isAdd = true,
     this.isDetails = false,
-    this.isCommets = false,
+    this.isComments = false,
+    required this.recipe,
   }) : super(key: key);
 
   InputAndDetailsCard.details({
@@ -31,7 +36,8 @@ class InputAndDetailsCard extends StatelessWidget {
     required this.media,
     this.isAdd = false,
     this.isDetails = true,
-    this.isCommets = false,
+    this.isComments = false,
+    required this.recipe,
   }) : super(key: key);
 
   InputAndDetailsCard.comments({
@@ -39,7 +45,8 @@ class InputAndDetailsCard extends StatelessWidget {
     required this.media,
     this.isAdd = false,
     this.isDetails = false,
-    this.isCommets = true,
+    this.isComments = true,
+    required this.recipe,
   }) : super(key: key);
 
   @override
@@ -55,27 +62,28 @@ class InputAndDetailsCard extends StatelessWidget {
           color: Colors.white,
           child: LayoutBuilder(
             builder: (context, constraint) {
-              return Column(
+              return Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Column(
                   children: isAdd
                       ? [
                           _buildTextField(
                             flex: 1,
                             controller: _mealNameController,
-                            textSize: 19,
                             fieldLabel: "Enter Meal Name",
                             constraint: constraint,
+                            textStyle: Theme.of(context)
+                                .textTheme
+                                .headlineMedium!
+                                .copyWith(
+                                  color: Colors.black,
+                                ),
                           ),
                           _buildTextField(
                             flex: 4,
                             controller: _mealNameController,
-                            textSize: 10,
                             fieldLabel: "Meal Description",
                             constraint: constraint,
-                          ),
-                          _buildCategoryCarousel(),
-                          _buildTmePicker(),
-                          _buildButton(
-                            buttonText: 'Upload Recipe',
                             textStyle: Theme.of(context)
                                 .textTheme
                                 .bodyMedium!
@@ -83,13 +91,31 @@ class InputAndDetailsCard extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                           ),
+                          _buildCategoryCarousel(),
+                          _buildTmePicker(),
+                          Expanded(
+                            child: GestureDetector(
+                              child: Expanded(
+                                flex: 1,
+                                child: _buildButton(
+                                  buttonText: 'Upload Recipe',
+                                  textStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: Colors.black,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ]
                       : isDetails
                           ? [
                               _buildText(
                                 flex: 1,
                                 constraint: constraint,
-                                fieldLabel: "state.recipe.name",
+                                fieldLabel: recipe!.name,
                                 textStyle: Theme.of(context)
                                     .textTheme
                                     .headlineMedium!
@@ -98,9 +124,9 @@ class InputAndDetailsCard extends StatelessWidget {
                                     ),
                               ),
                               _buildText(
-                                flex: 3,
+                                flex: 5,
                                 constraint: constraint,
-                                fieldLabel: "Cia state.recipe.description",
+                                fieldLabel: recipe!.recipeDesc,
                                 textStyle: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -109,7 +135,9 @@ class InputAndDetailsCard extends StatelessWidget {
                                     ),
                               ),
                               _buildDurationText(
+                                flex: 1,
                                 constraint: constraint,
+                                cookTime: recipe!.cookTime,
                                 textStyle: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -117,17 +145,69 @@ class InputAndDetailsCard extends StatelessWidget {
                                       color: Colors.black,
                                     ),
                               ),
-                              _buildButton(
-                                buttonText: 'Comment',
-                                textStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      color: Colors.black,
+                              Expanded(
+                                child: GestureDetector(
+                                  behavior: HitTestBehavior.opaque,
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Dialog(
+                                          backgroundColor: Colors.transparent,
+                                          child: InputAndDetailsCard.comments(
+                                              media: media),
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Expanded(
+                                    flex: 1,
+                                    child: _buildButton(
+                                      buttonText: 'Komentuoti',
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            color: Colors.black,
+                                          ),
                                     ),
+                                  ),
+                                ),
                               ),
                             ]
-                          : [Text('data')]);
+                          : isComments
+                              ? [
+                                  _buildText(
+                                    flex: 1,
+                                    constraint: constraint,
+                                    fieldLabel: "Komentarai",
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium!
+                                        .copyWith(
+                                          color: Colors.black,
+                                        ),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: _buildButton(
+                                      buttonText: 'Ikelti',
+                                      textStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            color: Colors.black,
+                                          ),
+                                    ),
+                                  ),
+                                ]
+                              : [
+                                  Center(
+                                    child: Text('Something went wrong!'),
+                                  ),
+                                ],
+                ),
+              );
             },
           ),
         ),
@@ -141,26 +221,26 @@ class _buildDurationText extends StatelessWidget {
     Key? key,
     required this.constraint,
     required this.textStyle,
+    required this.cookTime,
+    required this.flex,
   }) : super(key: key);
+
   final TextStyle textStyle;
   final BoxConstraints constraint;
+  final int cookTime;
+  final int flex;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 2,
+      flex: flex,
       child: Container(
         width: constraint.biggest.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          // ignore: prefer_const_literals_to_create_immutables
           children: [
             Text(
-              //'${state.recipe.cookTime}',
-              'state.recipe.cookTime',
-              style: textStyle,
-            ),
-            Text(
-              'minutes',
+              '$cookTime min.',
               style: textStyle,
             ),
           ],
@@ -210,17 +290,12 @@ class _buildButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
-      child: Container(
-        alignment: Alignment.center,
-        color: Colors.yellow[700],
-        // ignore: prefer_const_constructors
-        child: Text(
-          buttonText,
-          // ignore: prefer_const_constructors
-          style: textStyle,
-        ),
+    return Container(
+      alignment: Alignment.center,
+      color: Colors.yellow[700],
+      child: Text(
+        buttonText,
+        style: textStyle,
       ),
     );
   }
@@ -271,7 +346,7 @@ class _buildTextField extends StatelessWidget {
     Key? key,
     required this.flex,
     required TextEditingController controller,
-    required this.textSize,
+    required this.textStyle,
     required this.fieldLabel,
     required this.constraint,
   })  : _controller = controller,
@@ -279,7 +354,7 @@ class _buildTextField extends StatelessWidget {
 
   final int flex;
   final TextEditingController _controller;
-  final double textSize;
+  final TextStyle textStyle;
   final String fieldLabel;
   final BoxConstraints constraint;
 
@@ -292,13 +367,13 @@ class _buildTextField extends StatelessWidget {
         alignment: Alignment.topLeft,
         child: TextField(
           minLines: 1,
-          maxLines: null, // Text fills parent
+          maxLines: null,
           controller: _controller,
-          style: TextStyle(fontSize: textSize),
+          style: textStyle,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: fieldLabel,
-            hintStyle: TextStyle(fontSize: textSize),
+            hintStyle: textStyle,
           ),
         ),
       ),

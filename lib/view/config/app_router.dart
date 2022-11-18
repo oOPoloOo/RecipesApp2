@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipeapp2/models/models_export.dart';
 
 import '../screens/screens_export.dart';
 
@@ -12,6 +13,8 @@ class AppRouter {
         return HomeScreen.route();
       case '/add':
         return AddRecipeScreen.route();
+      case '/details':
+        return RecipeDetailsScreen.route(recipe: settings.arguments as Recipe);
       default:
         return _errorRoute();
     }

@@ -32,13 +32,13 @@ class AddRecipeScreen extends StatelessWidget {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            MealImage(media: media),
+            MealImage.base(media: media),
             _buildAddSign(
               media: media,
               mediaHeightDivider: mediaHeightDivider,
               mediaWidthDivider: mediaWidthDivider,
             ),
-            InputAndDetailsCard.details(
+            InputAndDetailsCard.addRecipe(
               media: media,
             ),
           ],
