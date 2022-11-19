@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipeapp2/presenter/blocs/recipe/recipe_bloc.dart';
 import 'package:recipeapp2/presenter/repositories/recipes/recipes_repo.dart';
+import 'package:recipeapp2/view/config/theme.dart';
 import 'package:recipeapp2/view/screens/screens_export.dart';
 import 'view/config/app_router.dart';
 
@@ -24,9 +25,7 @@ class MyApp extends StatelessWidget {
       )..add(LoadRecipes()),
       child: MaterialApp(
         title: 'Recipe App 2',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: theme(),
         onGenerateRoute: AppRouter.onGenerateRoute,
         initialRoute: HomeScreen.routeName,
       ),

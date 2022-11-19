@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipeapp2/models/models_export.dart';
 import 'package:recipeapp2/presenter/blocs/recipe/recipe_bloc.dart';
+import 'package:recipeapp2/view/widgets/custom_appbar.dart';
 
+import '../helpers/helpers_export.dart';
 import '../widgets/widgets_export.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/';
+  var backColor = Colors.amber[400];
 
   static Route route() {
     return MaterialPageRoute(
@@ -19,49 +22,107 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Work in progress...'),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, '/add');
-            },
-            child: Icon(
-              Icons.add_circle,
+      appBar: CustomAppBar(screen: routeName),
+      body: _buildBody(backColor: backColor),
+    );
+  }
+}
+
+class _buildBody extends StatelessWidget {
+  const _buildBody({
+    Key? key,
+    required this.backColor,
+  }) : super(key: key);
+
+  final Color? backColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Stack(
+        children: [
+          ClipPath(
+            clipper: CurvedClipPath(),
+            child: Container(
+              color: backColor,
             ),
-          )
+          ),
+          BlocBuilder<RecipesBloc, RecipesState>(
+            builder: (context, state) {
+              if (state is RecipesLoading) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state is RecipesLoaded) {
+                return Column(
+                  children: [
+                    CategoryCarousel(recipes: state.recipes),
+                    _buildRecipeCardsListView(recipes: state.recipes),
+                  ],
+                );
+              } else {
+                return Text('Something went wrong.');
+              }
+            },
+          ),
         ],
       ),
-      body: Container(
-        child: BlocBuilder<RecipesBloc, RecipesState>(
-          builder: (context, state) {
-            if (state is RecipesLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (state is RecipesLoaded) {
-              return CarouselSlider(
-                options: CarouselOptions(
-                  height: MediaQuery.of(context).size.height,
-                  aspectRatio: 1,
-                  enlargeCenterPage: false,
-                  scrollDirection: Axis.vertical,
-                  autoPlay: false,
+    );
+  }
+}
+
+class _buildRecipeCardsListView extends StatelessWidget {
+  final List<Recipe> recipes;
+  const _buildRecipeCardsListView({
+    Key? key,
+    required this.recipes,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView(
+          shrinkWrap: true,
+          physics: AlwaysScrollableScrollPhysics(),
+          children: recipes
+              .map(
+                (recipe) => RecipeCard(
+                  recipe: recipe,
                 ),
-                items: state.recipes
-                    .map(
-                      (recipe) => HeroCarouselCard(
-                        recipe: recipe,
-                      ),
-                    )
-                    .toList(),
-              );
-            } else {
-              return Text('Something went wrong.');
-            }
-          },
+              )
+              .toList()),
+    );
+  }
+}
+
+class CategoryCarousel extends StatelessWidget {
+  final List<Recipe> recipes; // pakeist i categories
+  const CategoryCarousel({
+    Key? key,
+    required this.recipes,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 125,
+      width: MediaQuery.of(context).size.width,
+      child: CarouselSlider(
+        options: CarouselOptions(
+          aspectRatio: 1.5,
+          viewportFraction: 0.3,
+          enlargeStrategy: CenterPageEnlargeStrategy.height,
+          enlargeCenterPage: true,
+          enableInfiniteScroll: false,
         ),
+        items: recipes
+            .map(
+              (recipe) => CategoryCard.homePage(
+                recipe: recipe,
+              ),
+            )
+            .toList(),
       ),
     );
   }
