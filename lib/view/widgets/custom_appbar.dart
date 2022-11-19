@@ -73,7 +73,9 @@ class ExitNavBar extends StatelessWidget {
       elevation: 0,
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Container(
             alignment: Alignment.center,
             height: 35,
