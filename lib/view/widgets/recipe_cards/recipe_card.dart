@@ -31,8 +31,11 @@ class RecipeCard extends StatelessWidget {
             builder: (context, constraint) {
               return Stack(
                 children: <Widget>[
-                  Image.network(recipe.imgURL,
-                      fit: BoxFit.cover, width: 1000.0),
+                  Image.network(
+                    recipe.imgURL,
+                    fit: BoxFit.cover,
+                    width: 1000.0,
+                  ),
                   Positioned(
                     bottom: 0.0,
                     child: RecipeCardBlur(

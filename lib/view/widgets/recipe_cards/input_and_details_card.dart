@@ -138,7 +138,7 @@ class InputAndDetailsCard extends StatelessWidget {
                                 child: GestureDetector(
                                   behavior: HitTestBehavior.opaque,
                                   onTap: () {
-                                    showRecipeComments(context);
+                                    recipeCommentsCard(context);
                                   },
                                   child: Expanded(
                                     flex: 1,
