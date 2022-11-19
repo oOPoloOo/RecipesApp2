@@ -19,6 +19,11 @@ textTheme() {
       fontSize: 10,
       fontWeight: FontWeight.normal,
     ),
+    labelMedium: TextStyle(
+      color: Colors.white,
+      fontSize: 25.0,
+      fontWeight: FontWeight.w600,
+    ),
     headlineMedium: TextStyle(
       color: Colors.white,
       fontSize: 30.0,
