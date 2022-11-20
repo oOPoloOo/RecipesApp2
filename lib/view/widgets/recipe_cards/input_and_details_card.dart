@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:recipeapp2/view/widgets/recipe_cards/comments_popup_card.dart';
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+import 'package:recipeapp2/view/widgets/custom_popup_card.dart';
 import 'package:flutter/material.dart';
 import '../../../models/models_export.dart';
 import 'recipe_card_widgets.dart';
@@ -88,6 +89,7 @@ class InputAndDetailsCard extends StatelessWidget {
                                 flex: 1,
                                 child: BuildButton(
                                   buttonText: 'Upload Recipe',
+                                  buttonColor: Theme.of(context).primaryColor,
                                   textStyle: Theme.of(context)
                                       .textTheme
                                       .bodyMedium!
@@ -138,12 +140,14 @@ class InputAndDetailsCard extends StatelessWidget {
                                 child: GestureDetector(
                                   behavior: HitTestBehavior.opaque,
                                   onTap: () {
-                                    recipeCommentsCard(context);
+                                    CustomPopUpCard(context, true);
                                   },
                                   child: Expanded(
                                     flex: 1,
                                     child: BuildButton(
                                       buttonText: 'Komentuoti',
+                                      buttonColor:
+                                          Theme.of(context).primaryColor,
                                       textStyle: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!

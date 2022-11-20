@@ -4,11 +4,12 @@ var backColor = Colors.amber[400]; // panaikint!
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String screen;
-  //final Product? product;
+  final double iconsSize;
+
   const CustomAppBar({
     Key? key,
     required this.screen,
-    // this.product,
+    this.iconsSize = 35,
   }) : super(key: key);
 
   @override
@@ -16,12 +17,23 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (screen == '/') ? HomeAppBar() : ExitNavBar();
+    return (screen == '/')
+        ? HomeAppBar(
+            iconsSize: iconsSize,
+          )
+        : ExitNavBar(
+            iconsSize: iconsSize,
+          );
   }
 }
 
 class HomeAppBar extends StatelessWidget {
-  const HomeAppBar({Key? key}) : super(key: key);
+  final double iconsSize;
+
+  const HomeAppBar({
+    Key? key,
+    required this.iconsSize,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +51,17 @@ class HomeAppBar extends StatelessWidget {
           onPressed: () {
             Navigator.pushNamed(context, '/add');
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.add,
-            size: 35,
+            size: iconsSize,
           ),
         ),
         IconButton(
           onPressed: () {},
           icon: Container(
             alignment: Alignment.center,
-            height: 35,
-            width: 35,
+            height: iconsSize,
+            width: iconsSize,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
@@ -63,7 +75,12 @@ class HomeAppBar extends StatelessWidget {
 }
 
 class ExitNavBar extends StatelessWidget {
-  const ExitNavBar({Key? key}) : super(key: key);
+  final double iconsSize;
+
+  const ExitNavBar({
+    Key? key,
+    required this.iconsSize,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +95,8 @@ class ExitNavBar extends StatelessWidget {
           },
           icon: Container(
             alignment: Alignment.center,
-            height: 35,
-            width: 35,
+            height: iconsSize,
+            width: iconsSize,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,

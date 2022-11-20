@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:recipeapp2/view/widgets/category_carousel.dart';
 
 import '../../../presenter/blocs/recipe/recipe_bloc.dart';
+import '../widgets_export.dart';
 
 class BuildText extends StatelessWidget {
   const BuildText({
@@ -53,16 +55,18 @@ class BuildButton extends StatelessWidget {
     Key? key,
     required this.buttonText,
     required this.textStyle,
+    required this.buttonColor,
   }) : super(key: key);
 
   final TextStyle textStyle;
   final String buttonText;
+  final Color buttonColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      color: Colors.yellow[700],
+      color: buttonColor,
       child: Text(
         buttonText,
         style: textStyle,
@@ -137,10 +141,26 @@ class BuildTmePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
+    return Expanded(
       flex: 2,
-      child: Icon(Icons.punch_clock),
+      child: GestureDetector(
+        onTap: () {
+          CustomPopUpCard(context, false);
+        },
+        child: Icon(Icons.punch_clock),
+      ),
     );
+
+//Jei yra laikas rodyt laika
+    // Container(
+    //   // margin: const EdgeInsets.symmetric(vertical: 50),
+    //   child: Text(
+    //     '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}:${_dateTime.second.toString().padLeft(2, '0')}',
+    //     style: const TextStyle(
+    //         fontSize: 18,
+    //         fontWeight: FontWeight.bold),
+    //   ),
+    // ),
   }
 }
 

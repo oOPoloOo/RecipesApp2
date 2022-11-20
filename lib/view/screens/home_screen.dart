@@ -12,7 +12,6 @@ import '../widgets/widgets_export.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = '/';
-  var backColor = Colors.amber[400];
 
   static Route route() {
     return MaterialPageRoute(
@@ -23,7 +22,9 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(screen: routeName),
-      body: _buildBody(backColor: backColor),
+      body: _buildBody(
+        backColor: Theme.of(context).backgroundColor,
+      ),
     );
   }
 }
