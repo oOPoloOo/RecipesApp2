@@ -9,6 +9,7 @@ import 'recipe_card_widgets.dart';
 class InputAndDetailsCard extends StatelessWidget {
   var _mealNameController = TextEditingController();
   var _descriptionController = TextEditingController();
+  var _formKey = GlobalKey<FormState>();
 
   final Size media;
   final double cardHeight;
@@ -56,6 +57,7 @@ class InputAndDetailsCard extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8),
                 child: isAdd
                     ? _addRecipeForm(
+                        formKey: _formKey,
                         constraint: constraint,
                         mealNameController: _mealNameController,
                         descriptionController: _descriptionController,
@@ -144,17 +146,20 @@ class _addRecipeForm extends StatelessWidget {
     required TextEditingController mealNameController,
     required TextEditingController descriptionController,
     required this.constraint,
+    required this.formKey,
   })  : _mealNameController = mealNameController,
         _descriptionController = descriptionController,
         super(key: key);
 
+  final BoxConstraints constraint;
+  final GlobalKey<FormState> formKey;
   final TextEditingController _mealNameController;
   final TextEditingController _descriptionController;
-  final BoxConstraints constraint;
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: Column(
         children: [
           BuildTextField(

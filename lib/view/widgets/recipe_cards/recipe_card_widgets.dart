@@ -214,7 +214,7 @@ class BuildTextField extends StatelessWidget {
       child: Container(
         width: constraint.biggest.width * 0.85,
         alignment: Alignment.topLeft,
-        child: TextField(
+        child: TextFormField(
           minLines: 1,
           maxLines: null,
           controller: _controller,
@@ -224,6 +224,7 @@ class BuildTextField extends StatelessWidget {
             hintText: fieldLabel,
             hintStyle: textStyle,
           ),
+          validator: (value) => null,
         ),
       ),
     );
