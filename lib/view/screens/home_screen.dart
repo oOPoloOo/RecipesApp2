@@ -4,8 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipeapp2/models/models_export.dart';
-import 'package:recipeapp2/presenter/blocs/recipe/recipe_bloc.dart';
-import 'package:recipeapp2/view/widgets/custom_appbar.dart';
+import 'package:recipeapp2/presenter/blocs/home/home_bloc.dart';
 
 import '../helpers/helpers_export.dart';
 import '../widgets/widgets_export.dart';
@@ -48,7 +47,7 @@ class _buildBody extends StatelessWidget {
               color: backColor,
             ),
           ),
-          BlocBuilder<RecipesBloc, RecipesState>(
+          BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
               if (state is RecipesLoading) {
                 return Center(

@@ -6,21 +6,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../models/models_export.dart';
 import '../../repositories/recipes/recipes_repo.dart';
 
-part 'recipe_event.dart';
-part 'recipe_state.dart';
+part 'home_event.dart';
+part 'home_state.dart';
 
-class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
+class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final RecipesRepository _recipesRepository;
   StreamSubscription? _recipesSubscription;
 
-  RecipesBloc({required recipesRepository})
+  HomeBloc({required recipesRepository})
       : _recipesRepository = recipesRepository,
         super(RecipesLoading()) {
     on<LoadRecipes>(_onLoadRecipes);
     on<UpdateRecipes>(_onUpdateRecipes);
   }
 
-  void _onLoadRecipes(event, Emitter<RecipesState> emit) async {
+  void _onLoadRecipes(event, Emitter<HomeState> emit) async {
     _recipesSubscription?.cancel();
     _recipesSubscription = _recipesRepository.getAllRecipes().listen(
           (recipes) => add(
@@ -29,7 +29,7 @@ class RecipesBloc extends Bloc<RecipesEvent, RecipesState> {
         );
   }
 
-  void _onUpdateRecipes(UpdateRecipes event, Emitter<RecipesState> emit) async {
+  void _onUpdateRecipes(UpdateRecipes event, Emitter<HomeState> emit) async {
     emit(RecipesLoaded(recipes: event.recipes));
   }
 }

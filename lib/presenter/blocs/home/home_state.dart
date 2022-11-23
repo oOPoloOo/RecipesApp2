@@ -1,15 +1,15 @@
-part of 'recipe_bloc.dart';
+part of 'home_bloc.dart';
 
-abstract class RecipesState {
-  const RecipesState();
+abstract class HomeState {
+  const HomeState();
 
   @override
   List<Object> get props => [];
 }
 
-class RecipesLoading extends RecipesState {}
+class RecipesLoading extends HomeState {}
 
-class RecipesLoaded extends RecipesState {
+class RecipesLoaded extends HomeState {
   final List<Recipe> recipes;
 
   RecipesLoaded({this.recipes = const <Recipe>[]});

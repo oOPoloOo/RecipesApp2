@@ -1,15 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+import 'package:recipeapp2/presenter/blocs/form_submission_status.dart';
 import 'package:recipeapp2/view/widgets/custom_popup_card.dart';
 import 'package:flutter/material.dart';
 import '../../../models/models_export.dart';
+import '../../../presenter/blocs/add_recipe/bloc/add_recipe_bloc.dart';
 import 'recipe_card_widgets.dart';
 
 class InputAndDetailsCard extends StatelessWidget {
-  var _mealNameController = TextEditingController();
-  var _descriptionController = TextEditingController();
-  var _formKey = GlobalKey<FormState>();
+  static final formKey = new GlobalKey<FormState>();
 
   final Size media;
   final double cardHeight;
@@ -57,10 +58,8 @@ class InputAndDetailsCard extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8),
                 child: isAdd
                     ? _addRecipeForm(
-                        formKey: _formKey,
+                        formKey: formKey,
                         constraint: constraint,
-                        mealNameController: _mealNameController,
-                        descriptionController: _descriptionController,
                       )
                     : isDetails
                         ? _recipeDetailsCard(
@@ -118,20 +117,19 @@ class _recipeDetailsCard extends StatelessWidget {
               ),
         ),
         Expanded(
+          flex: 1,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: () {
               CustomPopUpCard(context, true);
             },
-            child: Expanded(
-              flex: 1,
-              child: BuildButton(
-                buttonText: 'Komentuoti',
-                buttonColor: Theme.of(context).primaryColor,
-                textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Colors.black,
-                    ),
-              ),
+            child: BuildButton(
+              // flex: 1,
+              buttonText: 'Komentuoti',
+              buttonColor: Theme.of(context).primaryColor,
+              textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Colors.black,
+                  ),
             ),
           ),
         ),
@@ -143,18 +141,12 @@ class _recipeDetailsCard extends StatelessWidget {
 class _addRecipeForm extends StatelessWidget {
   const _addRecipeForm({
     Key? key,
-    required TextEditingController mealNameController,
-    required TextEditingController descriptionController,
     required this.constraint,
     required this.formKey,
-  })  : _mealNameController = mealNameController,
-        _descriptionController = descriptionController,
-        super(key: key);
+  }) : super(key: key);
 
   final BoxConstraints constraint;
   final GlobalKey<FormState> formKey;
-  final TextEditingController _mealNameController;
-  final TextEditingController _descriptionController;
 
   @override
   Widget build(BuildContext context) {
@@ -162,19 +154,15 @@ class _addRecipeForm extends StatelessWidget {
       key: formKey,
       child: Column(
         children: [
-          BuildTextField(
-            flex: 1,
-            controller: _mealNameController,
-            fieldLabel: "Enter Meal Name",
+          BuildNameTextField(
+            flex: 2,
             constraint: constraint,
             textStyle: Theme.of(context).textTheme.headlineMedium!.copyWith(
                   color: Colors.black,
                 ),
           ),
-          BuildTextField(
+          BuildDescriptionTextField(
             flex: 4,
-            controller: _descriptionController,
-            fieldLabel: "Meal Description",
             constraint: constraint,
             textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Colors.black,
@@ -183,17 +171,36 @@ class _addRecipeForm extends StatelessWidget {
           BuildCategoryCarousel(),
           BuildTmePicker(),
           Expanded(
-            child: GestureDetector(
-              child: Expanded(
-                flex: 1,
-                child: BuildButton(
-                  buttonText: 'Upload Recipe',
-                  buttonColor: Theme.of(context).primaryColor,
-                  textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Colors.black,
-                      ),
-                ),
-              ),
+            flex: 1,
+            child: BlocBuilder<AddRecipeBloc, AddRecipeState>(
+              builder: (context, state) {
+                return state.formStatus is FormSubmitting
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                          top: 5,
+                          bottom: 5,
+                        ),
+                        child: CircularProgressIndicator(),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          if (formKey.currentState!.validate()) {
+                            context
+                                .read<AddRecipeBloc>()
+                                .add(RecipeSubmitted());
+                          }
+                        },
+                        child: BuildButton(
+                          // flex: 1,
+                          buttonText: 'Upload Recipe',
+                          buttonColor: Theme.of(context).primaryColor,
+                          textStyle:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Colors.black,
+                                  ),
+                        ),
+                      );
+              },
             ),
           ),
         ],

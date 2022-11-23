@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
-import 'package:recipeapp2/view/widgets/category_carousel.dart';
+import 'package:recipeapp2/presenter/blocs/add_recipe/bloc/add_recipe_bloc.dart';
+import 'package:recipeapp2/presenter/blocs/home/home_bloc.dart';
 
-import '../../../presenter/blocs/recipe/recipe_bloc.dart';
 import '../widgets_export.dart';
 
 class BuildText extends StatelessWidget {
@@ -56,21 +56,28 @@ class BuildButton extends StatelessWidget {
     required this.buttonText,
     required this.textStyle,
     required this.buttonColor,
+    // required this.flex,
   }) : super(key: key);
 
   final TextStyle textStyle;
   final String buttonText;
   final Color buttonColor;
+  // final int flex;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return
+        // Expanded(
+        //   flex: flex,
+        //   child:
+        Container(
       alignment: Alignment.center,
       color: buttonColor,
       child: Text(
         buttonText,
         style: textStyle,
       ),
+      // ),
     );
   }
 }
@@ -172,7 +179,7 @@ class BuildCategoryCarousel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<RecipesBloc, RecipesState>(
+      child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is RecipesLoading) {
             return const Center(
@@ -190,43 +197,91 @@ class BuildCategoryCarousel extends StatelessWidget {
   }
 }
 
-class BuildTextField extends StatelessWidget {
-  const BuildTextField({
+class BuildNameTextField extends StatelessWidget {
+  const BuildNameTextField({
     Key? key,
     required this.flex,
-    required TextEditingController controller,
     required this.textStyle,
-    required this.fieldLabel,
     required this.constraint,
-  })  : _controller = controller,
-        super(key: key);
+  }) : super(key: key);
 
   final int flex;
-  final TextEditingController _controller;
   final TextStyle textStyle;
-  final String fieldLabel;
   final BoxConstraints constraint;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: flex,
-      child: Container(
-        width: constraint.biggest.width * 0.85,
-        alignment: Alignment.topLeft,
-        child: TextFormField(
-          minLines: 1,
-          maxLines: null,
-          controller: _controller,
-          style: textStyle,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: fieldLabel,
-            hintStyle: textStyle,
+    return BlocBuilder<AddRecipeBloc, AddRecipeState>(
+      builder: (context, state) {
+        return Expanded(
+          flex: flex,
+          child: Container(
+            width: constraint.biggest.width * 0.85,
+            alignment: Alignment.topLeft,
+            child: TextFormField(
+              minLines: 1,
+              maxLines: null,
+              style: textStyle,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.only(
+                  top: 5,
+                ),
+                border: InputBorder.none,
+                hintText: 'Enter Meal Name',
+                hintStyle: textStyle,
+              ),
+              validator: (value) =>
+                  state.isValidRecipeName ? null : 'Name is too short',
+              onChanged: (value) => context.read<AddRecipeBloc>().add(
+                    RecipeNameChanged(recipeName: value),
+                  ),
+            ),
           ),
-          validator: (value) => null,
-        ),
-      ),
+        );
+      },
+    );
+  }
+}
+
+class BuildDescriptionTextField extends StatelessWidget {
+  const BuildDescriptionTextField({
+    Key? key,
+    required this.flex,
+    required this.textStyle,
+    required this.constraint,
+  }) : super(key: key);
+
+  final int flex;
+  final TextStyle textStyle;
+  final BoxConstraints constraint;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AddRecipeBloc, AddRecipeState>(
+      builder: (context, state) {
+        return Expanded(
+          flex: flex,
+          child: Container(
+            width: constraint.biggest.width * 0.85,
+            alignment: Alignment.topLeft,
+            child: TextFormField(
+              minLines: 1,
+              maxLines: null,
+              style: textStyle,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Enter Recipe Description',
+                hintStyle: textStyle,
+              ),
+              validator: (value) =>
+                  state.isValidDescription ? null : 'Description is too short',
+              onChanged: (value) => context.read<AddRecipeBloc>().add(
+                    RecipeDescriptionChanged(description: value),
+                  ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

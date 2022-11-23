@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:recipeapp2/presenter/blocs/recipe/recipe_bloc.dart';
+import 'package:recipeapp2/presenter/blocs/add_recipe/bloc/add_recipe_bloc.dart';
+
+import 'package:recipeapp2/presenter/blocs/home/home_bloc.dart';
+
 import 'package:recipeapp2/presenter/repositories/recipes/recipes_repo.dart';
 import 'package:recipeapp2/view/config/theme.dart';
 import 'package:recipeapp2/view/screens/screens_export.dart';
@@ -19,10 +22,17 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => RecipesBloc(
-        recipesRepository: RecipesRepository(),
-      )..add(LoadRecipes()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HomeBloc(
+            recipesRepository: RecipesRepository(),
+          )..add(LoadRecipes()),
+        ),
+        BlocProvider(
+          create: (context) => AddRecipeBloc(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Recipe App 2',
         theme: theme(),
