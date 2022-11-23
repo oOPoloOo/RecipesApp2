@@ -7,7 +7,7 @@ class AddRecipeState {
   bool get isValidRecipeName => recipeName.length > 3;
 
   final String description;
-  bool get isValidDescription => description.length > 3;
+  bool get isValidDescription => description.length > 10;
 
   final String category;
   final DateTime? time;

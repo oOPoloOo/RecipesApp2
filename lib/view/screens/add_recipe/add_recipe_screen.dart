@@ -65,7 +65,6 @@ class _buildAddSign extends StatelessWidget {
       top: media.height / mediaHeightDivider,
       left: media.width / mediaWidthDivider,
       child: GestureDetector(
-        // onTap: () => selectPhoto(context),
         onTap: () {},
         child: Icon(
           Icons.add_rounded,

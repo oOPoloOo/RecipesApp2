@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:recipeapp2/presenter/blocs/form_submission_status.dart';
 import 'package:recipeapp2/view/widgets/custom_popup_card.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +20,7 @@ class InputAndDetailsCard extends StatelessWidget {
 
   final Recipe? recipe;
 
-  InputAndDetailsCard.addRecipe({
+  const InputAndDetailsCard.addRecipe({
     Key? key,
     required this.media,
     this.isAdd = true,
@@ -31,7 +30,7 @@ class InputAndDetailsCard extends StatelessWidget {
     this.recipe,
   }) : super(key: key);
 
-  InputAndDetailsCard.details({
+  const InputAndDetailsCard.details({
     Key? key,
     required this.media,
     this.isAdd = false,
@@ -124,7 +123,6 @@ class _recipeDetailsCard extends StatelessWidget {
               CustomPopUpCard(context, true);
             },
             child: BuildButton(
-              // flex: 1,
               buttonText: 'Komentuoti',
               buttonColor: Theme.of(context).primaryColor,
               textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -169,7 +167,9 @@ class _addRecipeForm extends StatelessWidget {
                 ),
           ),
           BuildCategoryCarousel(),
-          BuildTmePicker(),
+          BuildTmePicker(
+            constraint: constraint,
+          ),
           Expanded(
             flex: 1,
             child: BlocBuilder<AddRecipeBloc, AddRecipeState>(
@@ -191,7 +191,6 @@ class _addRecipeForm extends StatelessWidget {
                           }
                         },
                         child: BuildButton(
-                          // flex: 1,
                           buttonText: 'Upload Recipe',
                           buttonColor: Theme.of(context).primaryColor,
                           textStyle:

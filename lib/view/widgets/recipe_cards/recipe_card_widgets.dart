@@ -1,6 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:recipeapp2/presenter/blocs/add_recipe/bloc/add_recipe_bloc.dart';
 import 'package:recipeapp2/presenter/blocs/home/home_bloc.dart';
 
@@ -56,28 +57,21 @@ class BuildButton extends StatelessWidget {
     required this.buttonText,
     required this.textStyle,
     required this.buttonColor,
-    // required this.flex,
   }) : super(key: key);
 
   final TextStyle textStyle;
   final String buttonText;
   final Color buttonColor;
-  // final int flex;
 
   @override
   Widget build(BuildContext context) {
-    return
-        // Expanded(
-        //   flex: flex,
-        //   child:
-        Container(
+    return Container(
       alignment: Alignment.center,
       color: buttonColor,
       child: Text(
         buttonText,
         style: textStyle,
       ),
-      // ),
     );
   }
 }
@@ -144,30 +138,40 @@ class BuildDurationText extends StatelessWidget {
 class BuildTmePicker extends StatelessWidget {
   const BuildTmePicker({
     Key? key,
+    required this.constraint,
   }) : super(key: key);
+  final BoxConstraints constraint;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 2,
-      child: GestureDetector(
-        onTap: () {
-          CustomPopUpCard(context, false);
-        },
-        child: Icon(Icons.punch_clock),
-      ),
+    return BlocBuilder<AddRecipeBloc, AddRecipeState>(
+      builder: (context, state) {
+        return Expanded(
+          flex: 2,
+          child: GestureDetector(
+            onTap: () {
+              CustomPopUpCard(context, false);
+            },
+            child: state.time != null
+                ? TextField(
+                    enabled: false,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.only(
+                        top: 30,
+                      ),
+                      border: InputBorder.none,
+                      hintText:
+                          '${state.time!.hour.toString().padLeft(2, '0')}:${state.time!.minute.toString().padLeft(2, '0')}',
+                      hintStyle: const TextStyle(
+                          fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                : const Icon(Icons.punch_clock),
+          ),
+        );
+      },
     );
-
-//Jei yra laikas rodyt laika
-    // Container(
-    //   // margin: const EdgeInsets.symmetric(vertical: 50),
-    //   child: Text(
-    //     '${_dateTime.hour.toString().padLeft(2, '0')}:${_dateTime.minute.toString().padLeft(2, '0')}:${_dateTime.second.toString().padLeft(2, '0')}',
-    //     style: const TextStyle(
-    //         fontSize: 18,
-    //         fontWeight: FontWeight.bold),
-    //   ),
-    // ),
   }
 }
 

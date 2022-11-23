@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:recipeapp2/view/widgets/recipe_cards/recipe_card_widgets.dart';
+
+import '../../presenter/blocs/add_recipe/bloc/add_recipe_bloc.dart';
 
 CustomPopUpCard(BuildContext context, bool comments) {
   TextEditingController _commentController = TextEditingController();
   bool isComments = comments;
   double dialogHeight;
-  DateTime _dateTime = DateTime.now();
+
   AlignmentGeometry cardAlignment; // laikinas
   Color cardColor;
 
@@ -70,7 +73,9 @@ CustomPopUpCard(BuildContext context, bool comments) {
                                 spacing: 40,
                                 minutesInterval: 5,
                                 onTimeChange: (time) {
-                                  _dateTime = time;
+                                  context
+                                      .read<AddRecipeBloc>()
+                                      .add(RecipeTimeChanged(time: time));
                                 },
                               ),
                             ],
