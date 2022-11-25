@@ -97,7 +97,7 @@ class BuildDurationText extends StatelessWidget {
 
   final TextStyle textStyle;
   final BoxConstraints? constraint;
-  final int cookTime;
+  final String cookTime;
   final int flex;
   final bool isHome;
 
@@ -110,11 +110,11 @@ class BuildDurationText extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '$cookTime',
+                  'Time',
                   style: Theme.of(context).textTheme.headlineMedium!,
                 ),
                 Text(
-                  'min.',
+                  cookTime,
                   style: Theme.of(context).textTheme.headlineMedium!,
                 ),
               ],
@@ -161,8 +161,7 @@ class BuildTmePicker extends StatelessWidget {
                         top: 30,
                       ),
                       border: InputBorder.none,
-                      hintText:
-                          '${state.time!.hour.toString().padLeft(2, '0')}:${state.time!.minute.toString().padLeft(2, '0')}',
+                      hintText: state.time,
                       hintStyle: const TextStyle(
                           fontSize: 30, fontWeight: FontWeight.bold),
                     ),

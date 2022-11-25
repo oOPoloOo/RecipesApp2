@@ -56,8 +56,15 @@ class RecipeCard extends StatelessWidget {
                                 textStyle:
                                     Theme.of(context).textTheme.labelMedium!,
                               ),
+                              Expanded(
+                                flex: 1,
+                                child: VerticalDivider(
+                                  color: Colors.white.withOpacity(0.5),
+                                  thickness: 3,
+                                ),
+                              ),
                               BuildDurationText.home(
-                                flex: 2,
+                                flex: 3,
                                 cookTime: recipe.cookTime,
                                 textStyle:
                                     Theme.of(context).textTheme.headlineMedium!,

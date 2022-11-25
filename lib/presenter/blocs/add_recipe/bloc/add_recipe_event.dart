@@ -27,7 +27,7 @@ class RecipeCategoryChanged extends AddRecipeEvent {
 }
 
 class RecipeTimeChanged extends AddRecipeEvent {
-  final DateTime time;
+  final String time;
 
   RecipeTimeChanged({required this.time});
 }

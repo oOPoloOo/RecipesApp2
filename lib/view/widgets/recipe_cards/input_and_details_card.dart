@@ -9,7 +9,7 @@ import '../../../presenter/blocs/add_recipe/bloc/add_recipe_bloc.dart';
 import 'recipe_card_widgets.dart';
 
 class InputAndDetailsCard extends StatelessWidget {
-  static final formKey = new GlobalKey<FormState>();
+  static final formKey = GlobalKey<FormState>();
 
   final Size media;
   final double cardHeight;

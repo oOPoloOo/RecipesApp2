@@ -25,7 +25,7 @@ class AddRecipeScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(screen: routeName),
-      body: Container(
+      body: SizedBox(
         height: media.height,
         width: media.width,
         child: Stack(

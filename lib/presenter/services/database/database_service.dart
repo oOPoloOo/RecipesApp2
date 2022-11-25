@@ -9,20 +9,36 @@ class DatabaseService extends BaseDatabaseService {
   DatabaseService({FirebaseFirestore? firebaseFirestore})
       : _firebaseFirestore = firebaseFirestore ?? FirebaseFirestore.instance;
 
-  // @override
-  // Future<List<Recipe>> getAllRecipesQuery() async {
-  //   QuerySnapshot<Map<String, dynamic>> snapshot =
-  //       await _firebaseFirestore.collection('Recipes').get();
-
-  //   return snapshot.docs
-  //       .map((docSnapshot) => Recipe.fromDocSnap(docSnapshot))
-  //       .toList();
-  // }
-
   @override
   Stream<List<Recipe>> getAllRecipesQuery() {
     return _firebaseFirestore.collection('Recipes').snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => Recipe.fromSnapshot(doc)).toList();
+      return snapshot.docs
+          .map(
+            (doc) => Recipe.fromSnapshot(doc),
+          )
+          .toList();
+    });
+  }
+
+  @override
+  uploadRecipeDataQuery(Recipe recipe) async {
+    await _firebaseFirestore
+        .collection('Recipes')
+        .doc(recipe.name)
+        .set(recipe.toJson());
+  }
+
+  @override
+  Stream<List<Category>> getAllCategoriesQuery() {
+    return _firebaseFirestore
+        .collection('Categories')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map(
+            (doc) => Category.fromSnapshot(doc),
+          )
+          .toList();
     });
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+import 'package:intl/intl.dart';
 import 'package:recipeapp2/view/widgets/recipe_cards/recipe_card_widgets.dart';
 
 import '../../presenter/blocs/add_recipe/bloc/add_recipe_bloc.dart';
@@ -73,9 +74,11 @@ CustomPopUpCard(BuildContext context, bool comments) {
                                 spacing: 40,
                                 minutesInterval: 5,
                                 onTimeChange: (time) {
+                                  String cookTime =
+                                      DateFormat('H:m').format(time);
                                   context
                                       .read<AddRecipeBloc>()
-                                      .add(RecipeTimeChanged(time: time));
+                                      .add(RecipeTimeChanged(time: cookTime));
                                 },
                               ),
                             ],

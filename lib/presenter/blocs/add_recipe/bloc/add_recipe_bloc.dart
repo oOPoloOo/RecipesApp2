@@ -2,11 +2,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:recipeapp2/presenter/blocs/form_submission_status.dart';
 
+import '../../../../models/models_export.dart';
+import '../../../repositories/recipes/recipes_repo.dart';
+
 part 'add_recipe_event.dart';
 part 'add_recipe_state.dart';
 
 class AddRecipeBloc extends Bloc<AddRecipeEvent, AddRecipeState> {
-  AddRecipeBloc() : super(AddRecipeState()) {
+  final RecipesRepository _recipesRepo;
+
+  AddRecipeBloc(this._recipesRepo) : super(AddRecipeState()) {
     on<RecipePhotoChanged>(_onPhotoChanged);
     on<RecipeNameChanged>(_onNameChanged);
     on<RecipeDescriptionChanged>(_onDescriptionChanged);
@@ -39,8 +44,16 @@ class AddRecipeBloc extends Bloc<AddRecipeEvent, AddRecipeState> {
     emit(state.copyWith(formStatus: FormSubmitting()));
 
     try {
-      //await submit new recipe
-      //emit state.copyWith(formStatus: SubmissionSuccess());
+      await _recipesRepo.uploadRecipeData(
+        Recipe(
+          name: state.recipeName,
+          recipeDesc: state.description,
+          cookTime: state.time!,
+          imgURL: '',
+          category: '',
+        ),
+      );
+      emit(state.copyWith(formStatus: const SubmisionSuccess()));
     } catch (e) {
       //emit state.copyWith(formStatus: SubmissionFailed(e));
     }

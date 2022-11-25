@@ -10,7 +10,7 @@ class AddRecipeState {
   bool get isValidDescription => description.length > 10;
 
   final String category;
-  final DateTime? time;
+  final String? time;
   final FormSubmissionStatus formStatus;
 
   const AddRecipeState({
@@ -27,7 +27,7 @@ class AddRecipeState {
     String? recipeName,
     String? description,
     String? category,
-    DateTime? time,
+    String? time,
     FormSubmissionStatus? formStatus,
   }) {
     return AddRecipeState(

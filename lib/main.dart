@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
           )..add(LoadRecipes()),
         ),
         BlocProvider(
-          create: (context) => AddRecipeBloc(),
+          create: (context) => AddRecipeBloc(RecipesRepository()),
         ),
       ],
       child: MaterialApp(
