@@ -55,7 +55,7 @@ class AddRecipeBloc extends Bloc<AddRecipeEvent, AddRecipeState> {
       );
       emit(state.copyWith(formStatus: const SubmisionSuccess()));
     } catch (e) {
-      //emit state.copyWith(formStatus: SubmissionFailed(e));
+      emit(state.copyWith(formStatus: SubmisionFailed(e as Exception)));
     }
   }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-var backColor = Colors.amber[400]; // panaikint!
-
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String screen;
   final double iconsSize;
@@ -44,7 +42,7 @@ class HomeAppBar extends StatelessWidget {
               color: Colors.black,
             ),
       ),
-      backgroundColor: backColor,
+      backgroundColor: Theme.of(context).backgroundColor,
       elevation: 0.0,
       actions: [
         IconButton(

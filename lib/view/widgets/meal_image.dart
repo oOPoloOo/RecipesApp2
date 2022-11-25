@@ -59,14 +59,3 @@ class MealImage extends StatelessWidget {
     );
   }
 }
-
-
-  // recipe != null
-  //             ? Image.network(
-  //                 recipe!.imgURL,
-  //                 fit: BoxFit.cover,
-  //               )
-  //             : Image.asset(
-  //                 'assets/images/plateBlack.jpg',
-  //                 fit: BoxFit.cover,
-  //               ),
